@@ -1,31 +1,28 @@
-include "main.h"
-
+#include "main.h"
 /**
- * _strspn - gets the length of pre-string
- * @s: str to check
- * @accept: bytes to take
- * Return: n.o to bytes in initial s
+ * _strspn - Entry point
+ * @s: input
+ * @accept: input
+ * Return: Always 0 (Success)
  */
 unsigned int _strspn(char *s, char *accept)
 {
-	unsigned int res = 0;
-	int x, f_char;
+	unsigned int n = 0;
+	int r;
 
 	while (*s)
 	{
-		for (x = 0; accept[x]; x++)
+		for (r = 0; accept[r]; r++)
 		{
-			f_char = 0;
-			if (*s == accept[x])
+			if (*s == accept[r])
 			{
-				res++;
-				f_char = 1;
+				n++;
 				break;
 			}
+			else if (accept[r + 1] == '\0')
+				return (n);
 		}
-	if (!f_char)
-		break;
-	s++;
+		s++;
 	}
-	return (res);
+	return (n);
 }

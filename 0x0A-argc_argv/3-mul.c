@@ -5,15 +5,18 @@
  * @argc: number of params
  * @argv: array of params
  *
- * Return: Always 0 (Success)
+ * Return: SUCCESS ? 0 : 1
  */
 
 int main(int argc, char *argv[])
 {
-	int i = 0;
+	if (argc != 3)
+		goto ERROR;
 
-	while (i < argc)
-		printf("%s\n", argv[i++]);
+	printf("%d\n", atoi(argv[1]) * atoi(argv[2]));
 
 	return (0);
+
+ERROR:	printf("Error\n");
+	return (1);
 }

@@ -1,54 +1,83 @@
-#include "dog.h"
-#include "dog_t.h"
-#include "my_dog.h"
 #include <stdlib.h>
+#include "dog.h"
 
 /**
-  * new_dog - creates a new dog.
-  * @name: dog's name.
-  * @age: dog's age.
-  * @owner: dog's owner.
-  *
-  * Return: pointer to the inode.
-  */
+ * _copy  -   Make a copy of passed in argument
+ * @src:      Data to make copy of
+ * Return:    Pointer
+ */
+
+char *_copy(char *src)
+{
+	char *ptr;
+	int i, len;
+
+	if (src == NULL)
+	{
+		return (NULL);
+	}
+
+	for (len = 0; src[len] != '\0'; len++)
+		;
+
+	ptr = malloc(sizeof(char) * (len + 1));
+
+	if (ptr == NULL)
+	{
+		return (NULL);
+	}
+
+	for (i = 0; src[i] != '\0'; i++)
+	{
+		ptr[i] = src[i];
+	}
+
+	ptr[i] = '\0';
+	return (ptr);
+}
+
+/**
+ * new_dog     - Create a new dog variable
+ * @name:        Name of the dog
+ * @age:         Age of the dog
+ * @owner:       Owner of the dog
+ * Return:       Pointer to new dog variable
+ */
+
 dog_t *new_dog(char *name, float age, char *owner)
 {
-	int len_name = 0, len_owner = 0, i;
-	struct dog *new_dog;
+	dog_t *snoopie;
+	char *new_name, *new_owner;
 
-	new_dog = malloc(sizeof(struct dog));
-	if (new_dog == NULL)
-		return (NULL);
-
-	for (; *(name + len_name); len_name++)
-		;
-	len_name++;
-
-	for (; *(owner + len_owner); len_owner++)
-		;
-	len_owner++;
-
-	new_dog->name = malloc(sizeof(char) * (len_name + 1));
-	if (new_dog->name == NULL)
+	if (name == NULL || owner == NULL)
 	{
-		free(new_dog);
 		return (NULL);
 	}
 
-	for (i = 0; i < len_name; i++)
-		*(new_dog->name + i) = name[i];
-
-	new_dog->age = age;
-
-	new_dog->owner = malloc(sizeof(char) * (len_owner + 1));
-	if (new_dog->owner == NULL)
+	snoopie = malloc(sizeof(dog_t));
+	if (snoopie == NULL)
 	{
-		free(new_dog->name);
-		free(new_dog);
 		return (NULL);
 	}
-	for (i = 0; i < len_owner; i++)
-		*(new_dog->owner + i) = owner[i];
 
-	return (new_dog);
+	new_name = _copy(name);
+	if (new_name == NULL)
+	{
+		free(snoopie);
+		return (NULL);
+	}
+	(*snoopie).name = new_name;
+
+	(*snoopie).age = age;
+
+	new_owner = _copy(owner);
+	if (new_owner == NULL)
+	{
+		free((*snoopie).name);
+		free(snoopie);
+		return (NULL);
+	}
+	(*snoopie).owner = new_owner;
+
+	return (snoopie);
 }
